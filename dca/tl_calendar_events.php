@@ -45,7 +45,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['operations']['members'] = arra
  */
 $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['__selector__'][] = 'register';
 $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['default'] .= ';{register_legend},register';
-$GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['register'] = 'register_until,register_limit,registered_message';
+$GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['register'] = 'register_until,register_limit,registered_message,register_jumpTo';
 
 			
 /**
@@ -84,6 +84,14 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['registered_message'] = array
 	'eval'					=> array('rte'=>'tinyMCE', 'tl_class'=>'clr'),
 );
 
+$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['register_jumpTo'] = array
+(
+	'label'			=> &$GLOBALS['TL_LANG']['tl_calendar_events']['register_jumpTo'],
+	'exclude'		=> true,
+	'inputType'		=> 'pageTree',
+	'eval'			=> array('fieldType'=>'radio'),
+);
+
 
 class tl_calendar_events_memberregistration extends Backend
 {
@@ -92,6 +100,11 @@ class tl_calendar_events_memberregistration extends Backend
 	{
 		if (!$row['register'])
 			return '';
+		
+		if ($this->Database->execute("SELECT COUNT(*) AS total FROM tl_calendar_memberregistration WHERE pid=".$row['id'])->total == 0)
+		{
+			$icon = str_replace('.gif', '_.gif', $icon);
+		}
 			
 		return '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.specialchars($title).'"'.$attributes.'>'.$this->generateImage($icon, $label).'</a> ';
 	}

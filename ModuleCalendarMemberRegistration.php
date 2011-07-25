@@ -48,15 +48,22 @@ class ModuleCalendarMemberRegistration extends Events
 			$objTemplate->title = $this->headline;
 			$objTemplate->id = $this->id;
 			$objTemplate->link = $this->name;
-			$objTemplate->href = 'typolight/main.php?do=modules&amp;act=edit&amp;id=' . $this->id;
+			$objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
 
 			return $objTemplate->parse();
 		}
 		
 		$this->cal_calendar = $this->sortOutProtected(deserialize($this->cal_calendar, true));
 
+		// Register hook for anonymous registration
+		if (!FE_USER_LOGGED_IN && $this->cal_anonymous)
+		{
+			array_insert($GLOBALS['TL_HOOKS']['createNewUser'], 0, array(array('CalendarRegistration', 'createNewUser')));
+			$GLOBALS['TL_HOOKS']['postLogin']['calendar_memberregistration'] = array('CalendarRegistration', 'postLogin');
+		}
+
 		// Return if there are no calendars or no user logged in
-		if (!FE_USER_LOGGED_IN || !strlen($this->Input->get('events')) || !is_array($this->cal_calendar) || count($this->cal_calendar) < 1)
+		if (!FE_USER_LOGGED_IN || !is_array($this->cal_calendar) || count($this->cal_calendar) < 1)
 		{
 			return '';
 		}
@@ -69,12 +76,17 @@ class ModuleCalendarMemberRegistration extends Events
 	
 	protected function compile()
 	{
+		if (!strlen($this->Input->get('events')))
+		{
+			return;
+		}
+		
 		$time = time();
 		
 		$objEvent = $this->Database->prepare("SELECT * FROM tl_calendar_events WHERE pid IN(" . implode(',', $this->cal_calendar) . ") AND (id=? OR alias=?)" . (!BE_USER_LOGGED_IN ? " AND (start='' OR start<?) AND (stop='' OR stop>?) AND published=1" : ""))
 								   ->limit(1)
 								   ->execute((is_numeric($this->Input->get('events')) ? $this->Input->get('events') : 0), $this->Input->get('events'), $time, $time);
-								   
+		
 		if (!$objEvent->numRows || !$objEvent->register)
 		{
 			$this->Template = new FrontendTemplate('mod_message');
@@ -134,6 +146,9 @@ class ModuleCalendarMemberRegistration extends Events
 			$blnRegister = false;
 		}
 		
+		$this->loadLanguageFile('tl_member');
+		$this->Template->listParticipants = $this->cal_listParticipants ? true : false;
+		$this->Template->editable = deserialize($this->editable, true);
 		$this->Template->register = $blnRegister;
 		$this->Template->participants = $arrParticipants;
 		$this->Template->registered = $blnRegistered;

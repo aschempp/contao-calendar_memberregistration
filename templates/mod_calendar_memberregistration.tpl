@@ -10,16 +10,18 @@
 <?php if ($this->registered): ?>
 <p class="message">You are registered for this event.</p>
 <?php echo $this->registered_message; ?>
-<input type="image" src="tl_files/template/images/signoff_btn.jpg" class="submit" value="Unregister" />
+<input type="submit" class="submit" value="Unregister" />
 <?php else: ?>
 <p class="message">You are not registered for this event.</p>
-<input type="image" src="tl_files/template/images/anmeldung_btn.jpg" class="submit" value="Register" />
+<input type="submit" class="submit" value="Register" />
 <?php endif; ?>
 </div>
 </form>
 <?php else: ?>
 Registration for this event is closed.
 <?php endif; ?>
+
+<?php if($this->listParticipants): ?>
 <br /><br />
 
 <?php if ($this->headline): ?>
@@ -31,16 +33,16 @@ Registration for this event is closed.
 <table id="memberregistration_<?php echo $this->id; ?>" cellspacing="0" cellpadding="0" border="0" class="sortable all_records" summary="Event registrations">
   <thead>
   	<tr>
-  	  <th>Lastname</th>
-  	  <th>Firstname</th>
-  	  <th>Company</th>
+<?php foreach( $this->editable as $field ): ?>
+      <td><?php echo $GLOBALS['TL_LANG']['tl_member'][$field][0]; ?></td>
+<?php endforeach; ?>
   </thead>
   <tbody>
 <?php foreach( $this->participants as $rowclass => $member ): ?>
     <tr class="<?php echo $member['rowclass']; ?>">
-      <td><?php echo $member['lastname']; ?></td>
-      <td><?php echo $member['firstname']; ?></td>
-      <td><?php echo $member['company']; ?></td>
+<?php foreach( $this->editable as $field ): ?>
+      <td><?php echo $member[$field]; ?></td>
+<?php endforeach; ?>
     </tr>
 <?php endforeach; ?>
   </tbody>
@@ -48,6 +50,6 @@ Registration for this event is closed.
 <?php else: ?>
 <p class="message empty">No member are registered for this event.</p>
 <?php endif; ?>
-
+<?php endif; ?>
 </div>
 <!-- indexer::continue -->

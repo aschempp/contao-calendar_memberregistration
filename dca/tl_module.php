@@ -31,5 +31,32 @@
 /**
  * Palettes
  */
-$GLOBALS['TL_DCA']['tl_module']['palettes']['calendar_memberregistration'] = '{title_legend},name,headline,type;{config_legend},cal_calendar;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'cal_listParticipants';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['calendar_memberregistration'] = '{title_legend},name,headline,type;{config_legend},cal_calendar,cal_anonymous,cal_listParticipants;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
+
+
+/**
+ * Subpalettes
+ */
+$GLOBALS['TL_DCA']['tl_module']['subpalettes']['cal_listParticipants'] = 'editable';
+
+
+/**
+ * Fields
+ */
+$GLOBALS['TL_DCA']['tl_module']['fields']['cal_listParticipants'] = array
+(
+	'label'				=> &$GLOBALS['TL_LANG']['tl_module']['cal_listParticipants'],
+	'exclude'			=> true,
+	'inputType'			=> 'checkbox',
+	'eval'				=> array('submitOnChange'=>true),
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['cal_anonymous'] = array
+(
+	'label'				=> &$GLOBALS['TL_LANG']['tl_module']['cal_anonymous'],
+	'exclude'			=> true,
+	'inputType'			=> 'checkbox',
+	'eval'				=> array(),
+);
 

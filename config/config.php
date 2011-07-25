@@ -41,3 +41,8 @@ $GLOBALS['BE_MOD']['content']['calendar']['exportmembers'] = array('tl_calendar_
 $GLOBALS['FE_MOD']['events']['calendar_memberregistration'] = 'ModuleCalendarMemberRegistration';
 
 
+/**
+ * Hooks
+ */
+$GLOBALS['TL_HOOKS']['getAllEvents'][] = array('CalendarRegistration', 'getAllEvents');
+

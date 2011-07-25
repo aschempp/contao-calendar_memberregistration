@@ -29,17 +29,7 @@
 
 
 /**
- * Fields
+ * Frontend modules
  */
-$GLOBALS['TL_LANG']['tl_calendar_events']['register']			= array('Event Registration', 'Allow members to register to this event.');
-$GLOBALS['TL_LANG']['tl_calendar_events']['register_until']		= array('Last registration date', 'Please enter the the last date on which registration is still available.');
-$GLOBALS['TL_LANG']['tl_calendar_events']['register_limit']		= array('Registration limit', 'Enter a number greater 0 to limit registration to this many members.');
-$GLOBALS['TL_LANG']['tl_calendar_events']['registered_message']	= array('Message to registered members', 'You can show more information to registered members.');
-$GLOBALS['TL_LANG']['tl_calendar_events']['register_jumpTo']	= array('Registration target page', 'Select the page where the registration form is available.');
-
-
-/**
- * Legends
- */
-$GLOBALS['TL_LANG']['tl_calendar_events']['register_legend']	= 'Event Registration';
+$GLOBALS['TL_LANG']['FMD']['calendar_memberregistration'] = array('Member Registration');
 

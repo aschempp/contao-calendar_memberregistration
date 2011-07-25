@@ -33,5 +33,18 @@ CREATE TABLE `tl_calendar_events` (
   `register_until` varchar(10) NOT NULL default '',
   `register_limit` int(10) unsigned NOT NULL default '0',
   `registered_message` text NULL,
+  `register_jumpTo` int(10) unsigned NOT NULL default '0',
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+-- --------------------------------------------------------
+
+-- 
+-- Table `tl_module`
+-- 
+
+CREATE TABLE `tl_module` (
+  `cal_anonymous` char(1) NOT NULL default '',
+  `cal_listParticipants` char(1) NOT NULL default '',
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 

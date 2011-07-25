@@ -57,7 +57,8 @@ $GLOBALS['TL_DCA']['tl_calendar_memberregistration'] = array
 			'flag'						=> 1,
 			'panelLayout'				=> 'filter,limit',
 			'headerFields'				=> array('title', 'startDate'),
-			'child_record_callback'		=> array('tl_calendar_memberregistration', 'listRows')
+			'child_record_callback'		=> array('tl_calendar_memberregistration', 'listRows'),
+			'disableGrouping'			=> true,
 		),
 		'global_operations' => array
 		(
@@ -88,9 +89,22 @@ $GLOBALS['TL_DCA']['tl_calendar_memberregistration'] = array
 		)
 	),
 	
+	// Palettes
+	'palettes' => array
+	(
+		'default'			=> '{member_legend},member',
+	),
+	
 	// Fields
 	'fields' => array
 	(
+		'member' => array
+		(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_calendar_memberregistration']['member'],
+			'inputType'		=> 'select',
+			'foreignKey'	=> "tl_member.CONCAT(firstname, ' ', lastname, ' (', username, ')')",
+			'eval'			=> array('mandatory'=>true, 'includeBlankOption'=>true),
+		),
 		'disable' => array
 		(
 			'label'			=> &$GLOBALS['TL_LANG']['tl_calendar_memberregistration']['disable'],
@@ -121,12 +135,12 @@ class tl_calendar_memberregistration extends Backend
 		
 		$objMember = $this->Database->prepare("SELECT * FROM tl_member WHERE id=?")->execute($row['member']);
 
-		return sprintf('<div class="list_icon" style="margin-top: -18px; margin-bottom:-8px; background-image:url(\'system/themes/%s/images/%s.gif\');">%s %s <span style="color:#b3b3b3; padding-left:3px;">[%s]</span></div>',
+		return sprintf('<div class="list_icon" style="line-height:18px;background-image:url(\'system/themes/%s/images/%s.gif\');">%s %s <span style="color:#b3b3b3; padding-left:3px;">[%s]</span></div>',
 						$this->getTheme(), 
 						$image, 
 						$objMember->lastname, 
 						$objMember->firstname, 
-						$objMember->company);
+						$objMember->username);
 	}
 	
 	
