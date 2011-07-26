@@ -31,5 +31,6 @@
 /**
  * Frontend modules
  */
-$GLOBALS['TL_LANG']['FMD']['calendar_memberregistration'] = array('Member Registration');
+$GLOBALS['TL_LANG']['FMD']['calendar_register'] = array('Event Registration');
+$GLOBALS['TL_LANG']['FMD']['calendar_registrations'] = array('Event Registrations');
 

@@ -38,7 +38,8 @@ $GLOBALS['BE_MOD']['content']['calendar']['exportmembers'] = array('tl_calendar_
 /**
  * Frontend modules
  */
-$GLOBALS['FE_MOD']['events']['calendar_memberregistration'] = 'ModuleCalendarMemberRegistration';
+$GLOBALS['FE_MOD']['events']['calendar_register'] = 'ModuleCalendarRegister';
+$GLOBALS['FE_MOD']['events']['calendar_registrations'] = 'ModuleCalendarRegistrations';
 
 
 /**

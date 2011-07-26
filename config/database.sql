@@ -46,5 +46,7 @@ CREATE TABLE `tl_calendar_events` (
 CREATE TABLE `tl_module` (
   `cal_anonymous` char(1) NOT NULL default '',
   `cal_listParticipants` char(1) NOT NULL default '',
+  `cal_pastEvents` char(1) NOT NULL default '',
+  `mail_createAccount` char(1) NOT NULL default '',
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 

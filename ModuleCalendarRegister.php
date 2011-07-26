@@ -28,14 +28,14 @@
  */
 
 
-class ModuleCalendarMemberRegistration extends Events
+class ModuleCalendarRegister extends Events
 {
 
 	/**
 	 * Template
 	 * @var string
 	 */
-	protected $strTemplate = 'mod_calendar_memberregistration';
+	protected $strTemplate = 'mod_calendar_register';
 	
 	
 	public function generate()
@@ -57,7 +57,8 @@ class ModuleCalendarMemberRegistration extends Events
 
 		// Register hook for anonymous registration
 		if (!FE_USER_LOGGED_IN && $this->cal_anonymous)
-		{
+		{	
+			$GLOBALS['EVENT_REGISTRATION'] = $this->arrData;
 			array_insert($GLOBALS['TL_HOOKS']['createNewUser'], 0, array(array('CalendarRegistration', 'createNewUser')));
 			$GLOBALS['TL_HOOKS']['postLogin']['calendar_memberregistration'] = array('CalendarRegistration', 'postLogin');
 		}
@@ -95,17 +96,8 @@ class ModuleCalendarMemberRegistration extends Events
 		
 		if ($this->Input->post('FORM_SUBMIT') == 'tl_memberregistration_'.$this->id)
 		{
-			$objRegistration = $this->Database->prepare("SELECT * FROM tl_calendar_memberregistration WHERE pid=? AND member=?")->execute($objEvent->id, $this->User->id);
-			
-			if ($objRegistration->numRows)
-			{
-				$this->Database->prepare("UPDATE tl_calendar_memberregistration SET tstamp=?, disable=? WHERE pid=? AND member=?")->execute($time, ($objRegistration->disable ? '' : '1'), $objEvent->id, $this->User->id);
-			}
-			else
-			{
-				$this->Database->prepare("INSERT INTO tl_calendar_memberregistration (pid,tstamp,member) VALUES (?,?,?)")->execute($objEvent->id, $time, $this->User->id);
-			}
-			
+			$this->import('CalendarRegistration');
+			$this->CalendarRegistration->registerMember($this->User->id, $this->Input->get('events'), $this->arrData, true);
 			$this->reload();
 		}
 		
@@ -136,7 +128,9 @@ class ModuleCalendarMemberRegistration extends Events
 			$arrParticipants[count($arrParticipants)-1]['rowclass'] .= ' row_last';
 		}
 		
+		$blnListParticipants = $this->cal_listParticipants ? true : false;
 		$blnRegister = true;
+		
 		if (!$blnRegistered && $objEvent->register_limit > 0 && $objEvent->register_limit <= count($arrParticipants))
 		{
 			$blnRegister = false;
@@ -146,20 +140,13 @@ class ModuleCalendarMemberRegistration extends Events
 			$blnRegister = false;
 		}
 		
-		$this->loadLanguageFile('tl_member');
-		$this->Template->listParticipants = $this->cal_listParticipants ? true : false;
-		$this->Template->editable = deserialize($this->editable, true);
-		$this->Template->register = $blnRegister;
-		$this->Template->participants = $arrParticipants;
-		$this->Template->registered = $blnRegistered;
-		$this->Template->registered_message = $objEvent->registered_message;
-		$this->Template->register_limit = $objEvent->register_limit ? sprintf('<p class="limit">Max. %s members allowed.</p>', $objEvent->register_limit) : '';
-		$this->Template->action = ampersand($this->Environment->request);
-		$this->Template->formSubmit = 'tl_memberregistration_'.$this->id;
-		$this->Template->id = $this->id;
-		
-		$GLOBALS['TL_CSS'][] = 'plugins/tablesort/css/tablesort.css';
-		$GLOBALS['TL_MOOTOOLS'][] = '
+		if ($blnListParticipants)
+		{
+			$this->loadLanguageFile('tl_member');
+			$this->Template->editable = deserialize($this->editable, true);
+			
+			$GLOBALS['TL_CSS'][] = 'plugins/tablesort/css/tablesort.css';
+			$GLOBALS['TL_MOOTOOLS'][] = '
 <script type="text/javascript" src="plugins/tablesort/js/tablesort.js"></script>
 <script type="text/javascript">
 <!--//--><![CDATA[//><!--
@@ -168,6 +155,17 @@ window.addEvent(\'domready\', function() {
 });
 //--><!]]>
 </script>';
+		}
+		
+		$this->Template->listParticipants = $blnListParticipants;
+		$this->Template->register = $blnRegister;
+		$this->Template->participants = $arrParticipants;
+		$this->Template->registered = $blnRegistered;
+		$this->Template->registered_message = $objEvent->registered_message;
+		$this->Template->register_limit = $objEvent->register_limit ? sprintf('<p class="limit">Max. %s members allowed.</p>', $objEvent->register_limit) : '';
+		$this->Template->action = ampersand($this->Environment->request);
+		$this->Template->formSubmit = 'tl_memberregistration_'.$this->id;
+		$this->Template->id = $this->id;
 	}
 }
 

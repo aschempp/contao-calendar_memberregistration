@@ -80,34 +80,42 @@ class CalendarRegistration extends Frontend
 		// If the user does not have a username, generate it
 		if (!$arrData['username'])
 		{
-			$strUsername = standardize($arrData['firstname']).'.'.standardize($arrData['lastname']);
+			$arrData['username'] = standardize($arrData['firstname']).'.'.standardize($arrData['lastname']);
 			
-			$objMember = $this->Database->prepare("SELECT MAX(SUBSTRING(username FROM ".(strlen($strUsername)+1).")) AS username FROM tl_member WHERE username=? OR username LIKE ?")->executeUncached($strUsername, $strUsername . '%');
+			$objMember = $this->Database->prepare("SELECT MAX(SUBSTRING(username FROM ".(strlen($arrData['username'])+1).")) AS username FROM tl_member WHERE username=? OR username LIKE ?")->executeUncached($arrData['username'], $arrData['username'] . '%');
 			
 			if ($objMember->numRows)
 			{
-				$strUsername .= ((int)$objMember->username + 1);
+				$arrData['username'] .= ((int)$objMember->username + 1);
 			}
 			
-			$this->Database->prepare("UPDATE tl_member SET username=? WHERE id=$intId")->executeUncached($strUsername);
-			$this->Input->setPost('username', $strUsername);
+			$this->Database->prepare("UPDATE tl_member SET username=? WHERE id=$intId")->executeUncached($arrData['username']);
+			$this->Input->setPost('username', $arrData['username']);
 		}
 		
 		// If the user does not have a password, generate it
 		if (!$arrData['password'])
 		{
-			$_SESSION['FORM_DATA']['password'] = $this->generatePassword();
+			$arrData['password'] = $this->generatePassword();
 			$strSalt = substr(md5(uniqid(mt_rand(), true)), 0, 23);
-			$strPassword = sha1($strSalt . $_SESSION['FORM_DATA']['password']) . ':' . $strSalt;
+			$strPassword = sha1($strSalt . $arrData['password']) . ':' . $strSalt;
 
 			$this->Database->query("UPDATE tl_member SET password='$strPassword' WHERE id=$intId");
-			$this->Input->setPost('password', $strPassword);
+			$this->Input->setPost('password', $arrData['password']);
+			$_SESSION['FORM_DATA']['password'] = $arrData['password'];
 		}
 		
-		$this->registerMember($intId);
+		$this->registerMember($intId, $this->Input->get('events'), $GLOBALS['EVENT_REGISTRATION']);
 		
 		// Unset postLogin Hook if autoregistration is installed
 		unset($GLOBALS['TL_HOOKS']['postLogin']['calendar_memberregistration']);
+		
+		// Send account notification email
+		if (is_array($GLOBALS['EVENT_REGISTRATION']) && $GLOBALS['EVENT_REGISTRATION']['mail_createAccount'] && $this->isValidEmailAddress($arrData['email']))
+		{
+			$objEmail = new EmailTemplate($GLOBALS['EVENT_REGISTRATION']['mail_createAccount']);
+			$objEmail->send($arrData['email'], $arrData);
+		}
 	}
 	
 	
@@ -120,7 +128,7 @@ class CalendarRegistration extends Frontend
 	 */
 	public function postLogin($objUser)
 	{
-		$this->registerMember($objUser->id);
+		$this->registerMember($objUser->id, $this->Input->get('events'), $GLOBALS['EVENT_REGISTRATION']);
 	}
 	
 	
@@ -130,9 +138,18 @@ class CalendarRegistration extends Frontend
 	 * @param	int
 	 * @return	void
 	 */
-	private function registerMember($intMember)
+	public function registerMember($intMember, $varEvent, $arrModule, $blnToggle=false)
 	{
-		$objEvent = $this->Database->prepare("SELECT * FROM tl_calendar_events WHERE alias=? OR id=?")->execute($this->Input->get('events'), (int)$this->Input->get('events'));
+		if (!is_array($arrModule['cal_calendar']) || !count($arrModule['cal_calendar']))
+		{
+			return;
+		}
+
+		$time = time();
+		
+		$objEvent = $this->Database->prepare("SELECT * FROM tl_calendar_events WHERE pid IN(" . implode(',', $arrModule['cal_calendar']) . ") AND (id=? OR alias=?)" . (!BE_USER_LOGGED_IN ? " AND (start='' OR start<$time) AND (stop='' OR stop>$time) AND published=1" : ""))
+								   ->limit(1)
+								   ->execute((is_numeric($varEvent) ? $varEvent : 0), $varEvent);
 		
 		if ($objEvent->numRows && $objEvent->register)
 		{
@@ -141,15 +158,24 @@ class CalendarRegistration extends Frontend
 			{
 				$objRegistrations = $this->Database->execute("SELECT COUNT(*) AS total FROM tl_calendar_memberregistration WHERE disable='' AND pid=".$objEvent->id);
 				
-				if ($objRegistrations->numRows >= $objEvents->register_limit)
+				if ($objRegistrations->total >= $objEvents->register_limit)
+				{
 					return false;
+				}
 			}
 			
 			// Check member already registered
 			$objRegistered = $this->Database->execute("SELECT * FROM tl_calendar_memberregistration WHERE pid={$objEvent->id} AND member=".(int)$intMember);
 			if ($objRegistered->numRows && $objRegistered->disable == '')
 			{
-				return false;
+				if ($blnToggle)
+				{
+					$blnActivate = true;
+				}
+				else
+				{
+					return false;
+				}
 			}
 			elseif ($objRegistered->numRows && $objRegistered->disable == '1')
 			{
@@ -160,9 +186,9 @@ class CalendarRegistration extends Frontend
 				$blnActivate = false;
 			}
 			
-			if (is_array($GLOBALS['TL_HOOKS']['registerAnonymous']) && count($GLOBALS['TL_HOOKS']['registerAnonymous']))
+			if (is_array($GLOBALS['TL_HOOKS']['calendarRegistration']) && count($GLOBALS['TL_HOOKS']['calendarRegistration']))
 			{
-				foreach( $GLOBALS['TL_HOOKS']['registerAnonymous'] as $callback )
+				foreach( $GLOBALS['TL_HOOKS']['calendarRegistration'] as $callback )
 				{
 					$this->import($callback[0]);
 					
@@ -175,7 +201,7 @@ class CalendarRegistration extends Frontend
 			
 			if ($blnActivate)
 			{
-				$this->Database->query("UPDATE tl_calendar_memberregistration SET tstamp=".time().", disable='' WHERE pid=".(int)$objEvent->id." AND member=".(int)$intMember."");
+				$this->Database->query("UPDATE tl_calendar_memberregistration SET tstamp=".time().", disable='" . ($objRegistered->disable == '1' ? '' : '1') . "' WHERE pid=".(int)$objEvent->id." AND member=".(int)$intMember."");
 			}
 			else
 			{

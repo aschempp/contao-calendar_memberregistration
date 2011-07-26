@@ -33,4 +33,6 @@
  */
 $GLOBALS['TL_LANG']['tl_module']['cal_anonymous'] = array('Allow anonymous event registration', 'Create a member account for anonymous registrations.');
 $GLOBALS['TL_LANG']['tl_module']['cal_listParticipants'] = array('List participants', 'Show a list of participants for this event.');
+$GLOBALS['TL_LANG']['tl_module']['cal_pastEvents'] = array('Show past events', 'Also list event registrations in the past.');
+$GLOBALS['TL_LANG']['tl_module']['mail_createAccount'] = array('New Account Notification', 'Please select a mail template to notify registrations about a new account.');
 

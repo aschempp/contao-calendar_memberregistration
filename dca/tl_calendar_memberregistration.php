@@ -135,12 +135,12 @@ class tl_calendar_memberregistration extends Backend
 		
 		$objMember = $this->Database->prepare("SELECT * FROM tl_member WHERE id=?")->execute($row['member']);
 
-		return sprintf('<div class="list_icon" style="line-height:18px;background-image:url(\'system/themes/%s/images/%s.gif\');">%s %s <span style="color:#b3b3b3; padding-left:3px;">[%s]</span></div>',
+		return sprintf('<div class="list_icon" style="line-height:18px;background-image:url(\'system/themes/%s/images/%s.gif\');">%s %s%s</div>',
 						$this->getTheme(), 
 						$image, 
 						$objMember->lastname, 
 						$objMember->firstname, 
-						$objMember->username);
+						($row['disable'] ? (' <span style="color:#b3b3b3; padding-left:3px;">['.$GLOBALS['TL_LANG']['tl_calendar_memberregistration']['disable'][0].']</span>') : ''));
 	}
 	
 	
