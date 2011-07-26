@@ -207,7 +207,57 @@ class CalendarRegistration extends Frontend
 			{
 				$this->Database->query("INSERT INTO tl_calendar_memberregistration (tstamp,pid,member) VALUES (".time().",".(int)$objEvent->id.",".(int)$intMember.")");
 			}
+			
+			return true;
 		}
+		
+		return false;
+	}
+	
+	
+	/**
+	 * Check if an event does accept registrations
+	 *
+	 * @param	int
+	 * @return	void
+	 */
+	public function allowRegistrations($varEvent)
+	{
+		$time = time();
+		$objEvent = $this->Database->prepare("SELECT * FROM tl_calendar_events WHERE id=? OR alias=?" . (!BE_USER_LOGGED_IN ? " AND (start='' OR start<$time) AND (stop='' OR stop>$time) AND published=1" : ""))
+								   ->limit(1)
+								   ->execute((is_numeric($varEvent) ? $varEvent : 0), $varEvent);
+		
+		if ($objEvent->numRows && $objEvent->register)
+		{
+			// Check seat limits
+			if ($objEvents->register_limit > 0)
+			{
+				$objRegistrations = $this->Database->execute("SELECT COUNT(*) AS total FROM tl_calendar_memberregistration WHERE disable='' AND pid=".$objEvent->id);
+				
+				if ($objRegistrations->total >= $objEvents->register_limit)
+				{
+					return false;
+				}
+			}
+			
+			if (is_array($GLOBALS['TL_HOOKS']['calendarRegistration']) && count($GLOBALS['TL_HOOKS']['calendarRegistration']))
+			{
+				foreach( $GLOBALS['TL_HOOKS']['calendarRegistration'] as $callback )
+				{
+					$this->import($callback[0]);
+					
+					if ($this->$callback[0]->$callback[1]($objEvent->row(), $intMember, $blnActivate) === false)
+					{
+						return false;
+					}
+				}
+			}
+			
+			return true;
+		}
+		
+		return false;
 	}
 	
 	

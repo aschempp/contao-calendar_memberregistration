@@ -53,6 +53,21 @@ class ModuleCalendarRegister extends Events
 			return $objTemplate->parse();
 		}
 		
+		// Only works if an event is given
+		if ($this->Input->get('events') == '')
+		{
+			return '';
+		}
+		
+		// Make sure the current event has registration enabled, otherwise show 403 page
+		$this->import('CalendarRegistration');
+		if (!$this->CalendarRegistration->allowRegistrations($this->Input->get('events')))
+		{
+			global $objPage;
+			$objHandler = new $GLOBALS['TL_PTY']['error_403']();
+			$objHandler->generate($objPage->id);
+		}
+		
 		$this->cal_calendar = $this->sortOutProtected(deserialize($this->cal_calendar, true));
 
 		// Register hook for anonymous registration
@@ -77,11 +92,6 @@ class ModuleCalendarRegister extends Events
 	
 	protected function compile()
 	{
-		if (!strlen($this->Input->get('events')))
-		{
-			return;
-		}
-		
 		$time = time();
 		
 		$objEvent = $this->Database->prepare("SELECT * FROM tl_calendar_events WHERE pid IN(" . implode(',', $this->cal_calendar) . ") AND (id=? OR alias=?)" . (!BE_USER_LOGGED_IN ? " AND (start='' OR start<?) AND (stop='' OR stop>?) AND published=1" : ""))
@@ -96,7 +106,6 @@ class ModuleCalendarRegister extends Events
 		
 		if ($this->Input->post('FORM_SUBMIT') == 'tl_memberregistration_'.$this->id)
 		{
-			$this->import('CalendarRegistration');
 			$this->CalendarRegistration->registerMember($this->User->id, $this->Input->get('events'), $this->arrData, true);
 			$this->reload();
 		}
