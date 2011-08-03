@@ -43,8 +43,6 @@ $GLOBALS['TL_DCA']['tl_calendar_memberregistration'] = array
 		'dataContainer'					=> 'Table',
 		'enableVersioning'				=> true,
 		'ptable'						=> 'tl_calendar_events',
-		'closed'						=> true,
-		'notEditable'					=> true,
 	),
 
 	// List
@@ -92,7 +90,7 @@ $GLOBALS['TL_DCA']['tl_calendar_memberregistration'] = array
 	// Palettes
 	'palettes' => array
 	(
-		'default'			=> '{member_legend},member',
+		'default'			=> '{member_legend},member;{disable_legend},disable',
 	),
 	
 	// Fields
