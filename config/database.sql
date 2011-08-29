@@ -15,8 +15,10 @@ CREATE TABLE `tl_calendar_memberregistration` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `pid` int(10) unsigned NOT NULL default '0',
   `tstamp` int(10) unsigned NOT NULL default '0',
+  `registered` int(10) unsigned NOT NULL default '0',
   `member` int(10) unsigned NOT NULL default '0',
   `disable` char(1) NOT NULL default '',
+  `participated` char(1) NOT NULL default '',
   PRIMARY KEY  (`id`),
   KEY `pid` (`pid`),
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

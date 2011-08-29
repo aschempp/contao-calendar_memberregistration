@@ -31,3 +31,5 @@
 /**
  * Miscellaneous
  */
+$GLOBALS['TL_LANG']['MSC']['memberRegistrationDuplicate'] = 'This member is already signed up.';
+

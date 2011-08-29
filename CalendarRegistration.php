@@ -201,11 +201,11 @@ class CalendarRegistration extends Frontend
 			
 			if ($blnActivate)
 			{
-				$this->Database->query("UPDATE tl_calendar_memberregistration SET tstamp=".time().", disable='" . ($objRegistered->disable == '1' ? '' : '1') . "' WHERE pid=".(int)$objEvent->id." AND member=".(int)$intMember."");
+				$this->Database->query("UPDATE tl_calendar_memberregistration SET tstamp=$time, registered=$time, disable='" . ($objRegistered->disable == '1' ? '' : '1') . "' WHERE pid=".(int)$objEvent->id." AND member=".(int)$intMember."");
 			}
 			else
 			{
-				$this->Database->query("INSERT INTO tl_calendar_memberregistration (tstamp,pid,member) VALUES (".time().",".(int)$objEvent->id.",".(int)$intMember.")");
+				$this->Database->query("INSERT INTO tl_calendar_memberregistration (tstamp,registered,pid,member) VALUES ($time,$time,".(int)$objEvent->id.",".(int)$intMember.")");
 			}
 			
 			return true;
