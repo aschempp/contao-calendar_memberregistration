@@ -147,7 +147,7 @@ class CalendarRegistration extends Frontend
 		}
 
 		$time = time();
-		
+
 		$objEvent = $this->Database->prepare("SELECT * FROM tl_calendar_events WHERE pid IN(" . implode(',', $arrModule['cal_calendar']) . ") AND (id=? OR alias=?)" . (!BE_USER_LOGGED_IN ? " AND (start='' OR start<$time) AND (stop='' OR stop>$time) AND published=1" : ""))
 								   ->limit(1)
 								   ->execute((is_numeric($varEvent) ? $varEvent : 0), $varEvent);
@@ -155,11 +155,11 @@ class CalendarRegistration extends Frontend
 		if ($objEvent->numRows && $objEvent->register)
 		{
 			// Check seat limits
-			if ($objEvents->register_limit > 0)
+			if ($objEvent->register_limit > 0)
 			{
 				$objRegistrations = $this->Database->execute("SELECT COUNT(*) AS total FROM tl_calendar_memberregistration WHERE disable='' AND pid=".$objEvent->id);
 				
-				if ($objRegistrations->total >= $objEvents->register_limit)
+				if ($objRegistrations->total >= $objEvent->register_limit)
 				{
 					return false;
 				}
@@ -232,11 +232,11 @@ class CalendarRegistration extends Frontend
 		if ($objEvent->numRows && $objEvent->register)
 		{
 			// Check seat limits
-			if ($objEvents->register_limit > 0)
+			if ($objEvent->register_limit > 0)
 			{
 				$objRegistrations = $this->Database->execute("SELECT COUNT(*) AS total FROM tl_calendar_memberregistration WHERE disable='' AND pid=".$objEvent->id);
 				
-				if ($objRegistrations->total >= $objEvents->register_limit)
+				if ($objRegistrations->total >= $objEvent->register_limit)
 				{
 					return false;
 				}

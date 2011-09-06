@@ -59,12 +59,12 @@ class ModuleCalendarRegister extends Events
 			return '';
 		}
 		
-		// Make sure the current event has registration enabled, otherwise show 403 page
+		// Make sure the current event has registration enabled, otherwise show 404 page
 		$this->import('CalendarRegistration');
 		if (!$this->CalendarRegistration->allowRegistrations($this->Input->get('events')))
 		{
 			global $objPage;
-			$objHandler = new $GLOBALS['TL_PTY']['error_403']();
+			$objHandler = new $GLOBALS['TL_PTY']['error_404']();
 			$objHandler->generate($objPage->id);
 		}
 		
