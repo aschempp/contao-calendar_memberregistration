@@ -32,8 +32,8 @@
  * Miscellaneous
  */
 $GLOBALS['TL_LANG']['MSC']['memberRegistrationDuplicate']	= 'This member is already signed up.';
-$GLOBALS['TL_LANG']['MSC']['register']						= 'Register';
-$GLOBALS['TL_LANG']['MSC']['unregister']					= 'Unregister';
+$GLOBALS['TL_LANG']['MSC']['eventRegister']					= 'Inscription';
+$GLOBALS['TL_LANG']['MSC']['eventUnregister']				= 'Se désinscrire';
 $GLOBALS['TL_LANG']['MSC']['youAreRegistered']				= 'You are registered for this event.';
 $GLOBALS['TL_LANG']['MSC']['youAreNotRegistered']			= 'You are not registered for this event.';
 $GLOBALS['TL_LANG']['MSC']['registrationClosed']			= 'Registration for this event is closed.';

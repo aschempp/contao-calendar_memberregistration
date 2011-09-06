@@ -19,11 +19,11 @@
 </tr>
 <?php endforeach; endforeach; endforeach; ?>
 </table>
-<div class="submit_container"><input type="submit" class="submit" value="Unregister from selected events" /></div>
+<div class="submit_container"><input type="submit" class="submit" value="<?php echo $GLOBALS['TL_LANG']['MSC']['unregisterSelected']; ?>" /></div>
 </div>
 </form>
 <?php else: ?>
-<p class="message empty">You are currently not subscribed to any events.</p>
+<p class="message empty"><?php echo $GLOBALS['TL_LANG']['MSC']['notSubscribed']; ?></p>
 <?php endif; ?>
 
 </div>

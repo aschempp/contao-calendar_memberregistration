@@ -91,6 +91,7 @@ class CalendarRegistration extends Frontend
 			
 			$this->Database->prepare("UPDATE tl_member SET username=? WHERE id=$intId")->executeUncached($arrData['username']);
 			$this->Input->setPost('username', $arrData['username']);
+			$_SESSION['FORM_DATA']['username'] = $arrData['username'];
 		}
 		
 		// If the user does not have a password, generate it

@@ -8,17 +8,17 @@
 <div class="formbody">
 <input type="hidden" name="FORM_SUBMIT" value="<?php echo $this->formSubmit; ?>" />
 <?php if ($this->registered): ?>
-<p class="message">You are registered for this event.</p>
+<p class="message registered"><?php echo $GLOBALS['TL_LANG']['MSC']['youAreRegistered']; ?></p>
 <?php echo $this->registered_message; ?>
-<input type="submit" class="submit" value="Unregister" />
+<input type="submit" class="submit" value="<?php echo $GLOBALS['TL_LANG']['MSC']['unregister']; ?>" />
 <?php else: ?>
-<p class="message">You are not registered for this event.</p>
-<input type="submit" class="submit" value="Register" />
+<p class="message unregistered"><?php echo $GLOBALS['TL_LANG']['MSC']['youAreNotRegistered']; ?>You are not registered for this event.</p>
+<input type="submit" class="submit" value="<?php echo $GLOBALS['TL_LANG']['MSC']['register']; ?>" />
 <?php endif; ?>
 </div>
 </form>
 <?php else: ?>
-Registration for this event is closed.
+<p class="message closed"><?php echo $GLOBALS['TL_LANG']['MSC']['registrationClosed']; ?></p>
 <?php endif; ?>
 
 <?php if($this->listParticipants): ?>
@@ -48,7 +48,7 @@ Registration for this event is closed.
   </tbody>
 </table>
 <?php else: ?>
-<p class="message empty">No member are registered for this event.</p>
+<p class="message empty"><?php echo $GLOBALS['TL_LANG']['MSC']['noMembersRegistered']; ?></p>
 <?php endif; ?>
 <?php endif; ?>
 </div>

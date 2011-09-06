@@ -107,7 +107,7 @@ $GLOBALS['TL_DCA']['tl_calendar_memberregistration'] = array
 				'tl_class'				=> 'clr',
 				'foreignTable'			=> 'tl_member',
 				'fieldType'				=> 'radio',
-				'listFields'			=> array('firstname', 'lastname', 'city', 'email', 'available'=>("( IF((SELECT id FROM tl_calendar_memberregistration WHERE member=tl_member.id AND pid=" . ($this->Input->get('table')=='tl_calendar_memberregistration' ? "(SELECT pid FROM tl_calendar_memberregistration WHERE id=".(int)$this->Input->get('id').")" : (int)$this->Input->get('id')) . "), '" . $GLOBALS['TL_LANG']['MSC']['no'] . "', '" . $GLOBALS['TL_LANG']['MSC']['yes'] . "'))")),
+				'listFields'			=> array('firstname', 'lastname', 'city', 'email', 'available'=>("( IF((SELECT id FROM tl_calendar_memberregistration WHERE member=tl_member.id AND pid=" . ($this->Input->get('table')=='tl_calendar_memberregistration' ? "(SELECT pid FROM tl_calendar_memberregistration WHERE id=".(int)$this->Input->get('id').")" : (int)$this->Input->get('id')." AND disable=''") . "), '" . $GLOBALS['TL_LANG']['MSC']['no'] . "', '" . $GLOBALS['TL_LANG']['MSC']['yes'] . "'))")),
 				'searchFields'			=> array('firstname', 'lastname', 'email'),
 				'searchLabel'			=> 'Search members',
 			),
