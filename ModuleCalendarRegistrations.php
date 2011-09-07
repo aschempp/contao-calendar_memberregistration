@@ -61,6 +61,8 @@ class ModuleCalendarRegistrations extends Events
 			return '';
 		}
 		
+		$this->import('FrontendUser', 'User');
+		
 		return parent::generate();
 	}
 	
@@ -79,7 +81,7 @@ class ModuleCalendarRegistrations extends Events
 			$blnReload = true;
 		}
 		
-		$objEvents = $this->Database->execute("SELECT * FROM tl_calendar_memberregistration r LEFT JOIN tl_calendar_events e ON r.pid=e.id WHERE r.disable='' AND e.pid IN (" . implode(',', $this->cal_calendar) . ")" . ($this->cal_pastEvents ? '' : " AND e.startTime > ".time()));
+		$objEvents = $this->Database->execute("SELECT * FROM tl_calendar_memberregistration r LEFT JOIN tl_calendar_events e ON r.pid=e.id WHERE r.disable='' AND r.member={$this->User->id} AND e.pid IN (" . implode(',', $this->cal_calendar) . ")" . ($this->cal_pastEvents ? '' : " AND e.startTime > ".time()));
 		
 		while( $objEvents->next() )
 		{

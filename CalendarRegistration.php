@@ -77,46 +77,10 @@ class CalendarRegistration extends Frontend
 	 */
 	public function createNewUser($intId, $arrData)
 	{
-		// If the user does not have a username, generate it
-		if (!$arrData['username'])
-		{
-			$arrData['username'] = standardize($arrData['firstname']).'.'.standardize($arrData['lastname']);
-			
-			$objMember = $this->Database->prepare("SELECT MAX(SUBSTRING(username FROM ".(strlen($arrData['username'])+1).")) AS username FROM tl_member WHERE username=? OR username LIKE ?")->executeUncached($arrData['username'], $arrData['username'] . '%');
-			
-			if ($objMember->numRows)
-			{
-				$arrData['username'] .= ((int)$objMember->username + 1);
-			}
-			
-			$this->Database->prepare("UPDATE tl_member SET username=? WHERE id=$intId")->executeUncached($arrData['username']);
-			$this->Input->setPost('username', $arrData['username']);
-			$_SESSION['FORM_DATA']['username'] = $arrData['username'];
-		}
-		
-		// If the user does not have a password, generate it
-		if (!$arrData['password'])
-		{
-			$arrData['password'] = $this->generatePassword();
-			$strSalt = substr(md5(uniqid(mt_rand(), true)), 0, 23);
-			$strPassword = sha1($strSalt . $arrData['password']) . ':' . $strSalt;
-
-			$this->Database->query("UPDATE tl_member SET password='$strPassword' WHERE id=$intId");
-			$this->Input->setPost('password', $arrData['password']);
-			$_SESSION['FORM_DATA']['password'] = $arrData['password'];
-		}
-		
 		$this->registerMember($intId, $this->Input->get('events'), $GLOBALS['EVENT_REGISTRATION']);
 		
 		// Unset postLogin Hook if autoregistration is installed
 		unset($GLOBALS['TL_HOOKS']['postLogin']['calendar_memberregistration']);
-		
-		// Send account notification email
-		if (is_array($GLOBALS['EVENT_REGISTRATION']) && $GLOBALS['EVENT_REGISTRATION']['mail_createAccount'] && $this->isValidEmailAddress($arrData['email']))
-		{
-			$objEmail = new EmailTemplate($GLOBALS['EVENT_REGISTRATION']['mail_createAccount']);
-			$objEmail->send($arrData['email'], $arrData);
-		}
 	}
 	
 	
@@ -259,38 +223,6 @@ class CalendarRegistration extends Frontend
 		}
 		
 		return false;
-	}
-	
-	
-	/**
-	 * Generate random password
-	 */
-	private function generatePassword($intLength=8)
-	{
-		$strPassword = '';
-		$strChars = "0123456789abcdfghjkmnpqrstuvwxyz"; 
-		$i = 0;
-		
-		if ($intLength > strlen($strChars))
-		{
-			$intLength = strlen($strChars);
-		}
-		
-		// add random characters to $password until $length is reached
-		while ($i < $intLength)
-		{
-			// pick a random character from the possible ones
-			$char = substr($strChars, mt_rand(0, strlen($strChars)-1), 1);
-		
-			// we don't want this character if it's already in the password
-			if (!strstr($strPassword, $char))
-			{
-				$strPassword .= $char;
-				$i++;
-			}
-		}
-		
-		return $strPassword;
 	}
 }
 
