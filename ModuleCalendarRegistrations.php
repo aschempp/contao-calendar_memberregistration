@@ -81,13 +81,13 @@ class ModuleCalendarRegistrations extends Events
 			$blnReload = true;
 		}
 		
-		$objEvents = $this->Database->execute("SELECT * FROM tl_calendar_memberregistration r LEFT JOIN tl_calendar_events e ON r.pid=e.id WHERE r.disable='' AND r.member={$this->User->id} AND e.pid IN (" . implode(',', $this->cal_calendar) . ")" . ($this->cal_pastEvents ? '' : " AND e.startTime > ".time()));
+		$objEvents = $this->Database->execute("SELECT e.*, r.id AS reg_id FROM tl_calendar_memberregistration r LEFT JOIN tl_calendar_events e ON r.pid=e.id WHERE r.disable='' AND r.member={$this->User->id} AND e.pid IN (" . implode(',', $this->cal_calendar) . ")" . ($this->cal_pastEvents ? '' : " AND e.startTime > ".time()));
 		
 		while( $objEvents->next() )
 		{
 			if (in_array($objEvents->id, $arrUnregister))
 			{
-				$this->CalendarRegistration->registerMember($this->User->id, $objEvents->id, $this->arrData, true);
+				$this->Database->query("UPDATE tl_calendar_memberregistration SET disable='1' WHERE id=".$objEvents->reg_id);
 			}
 			else
 			{
