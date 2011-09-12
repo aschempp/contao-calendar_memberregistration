@@ -2,7 +2,7 @@
 
 /**
  * Contao Open Source CMS
- * Copyright (C) 2005-2011 Leo Feyer
+ * Copyright © 2005-2011 Leo Feyer
  *
  * Formerly known as TYPOlight Open Source CMS.
  *
@@ -31,13 +31,13 @@
 /**
  * Miscellaneous
  */
-$GLOBALS['TL_LANG']['MSC']['memberRegistrationDuplicate']	= 'This member is already signed up.';
+$GLOBALS['TL_LANG']['MSC']['memberRegistrationDuplicate']	= 'Ce membre est déjà inscript.';
 $GLOBALS['TL_LANG']['MSC']['eventRegister']					= 'Inscription';
 $GLOBALS['TL_LANG']['MSC']['eventUnregister']				= 'Se désinscrire';
-$GLOBALS['TL_LANG']['MSC']['youAreRegistered']				= 'You are registered for this event.';
-$GLOBALS['TL_LANG']['MSC']['youAreNotRegistered']			= 'You are not registered for this event.';
-$GLOBALS['TL_LANG']['MSC']['registrationClosed']			= 'Registration for this event is closed.';
-$GLOBALS['TL_LANG']['MSC']['noMembersRegistered']			= 'No member are registered for this event.';
-$GLOBALS['TL_LANG']['MSC']['notSubscribed']					= 'You are currently not subscribed to any events.';
-$GLOBALS['TL_LANG']['MSC']['unregisterSelected']			= 'Unregister from selected events';
+$GLOBALS['TL_LANG']['MSC']['youAreRegistered']				= 'Vous êtes inscript à cet évennement,';
+$GLOBALS['TL_LANG']['MSC']['youAreNotRegistered']			= 'Vous n\'êtes pas inscript à cet évennement.';
+$GLOBALS['TL_LANG']['MSC']['registrationClosed']			= 'Les inscriptions à cet évennement sont terminées.';
+$GLOBALS['TL_LANG']['MSC']['noMembersRegistered']			= 'Aucun membre n\'est inscript à cet évennement.';
+$GLOBALS['TL_LANG']['MSC']['notSubscribed']					= 'Vous n\'êtes pas encore inscript à un évennement.';
+$GLOBALS['TL_LANG']['MSC']['unregisterSelected']			= 'Se désinscrire des évennements sélectionnés.';
 

@@ -224,5 +224,18 @@ class CalendarRegistration extends Frontend
 		
 		return false;
 	}
+	
+	
+	/**
+	 * Delete all registration for a member when it is deleted
+	 *
+	 * @param	DataContainer
+	 * @return	void
+	 * @link	http://www.contao.org/callbacks.html#ondelete_callback
+	 */
+	public function deleteMember($dc)
+	{
+		$this->Database->query("DELETE FROM tl_calendar_memberregistration WHERE member=".$dc->id);
+	}
 }
 

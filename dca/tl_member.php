@@ -29,6 +29,12 @@
 
 
 /**
+ * Config
+ */
+$GLOBALS['TL_DCA']['tl_member']['config']['ondelete_callback'][] = array('CalendarRegistration', 'deleteMember');
+
+
+/**
  * Fields
  */
 $GLOBALS['TL_DCA']['tl_member']['fields']['available'] = array
