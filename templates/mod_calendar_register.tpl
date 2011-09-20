@@ -10,10 +10,10 @@
 <?php if ($this->registered): ?>
 <p class="message registered"><?php echo $GLOBALS['TL_LANG']['MSC']['youAreRegistered']; ?></p>
 <?php echo $this->registered_message; ?>
-<input type="submit" class="submit" value="<?php echo $GLOBALS['TL_LANG']['MSC']['unregister']; ?>" />
+<input type="submit" class="submit" value="<?php echo $GLOBALS['TL_LANG']['MSC']['eventUnregister']; ?>" />
 <?php else: ?>
-<p class="message unregistered"><?php echo $GLOBALS['TL_LANG']['MSC']['youAreNotRegistered']; ?>You are not registered for this event.</p>
-<input type="submit" class="submit" value="<?php echo $GLOBALS['TL_LANG']['MSC']['register']; ?>" />
+<p class="message unregistered"><?php echo $GLOBALS['TL_LANG']['MSC']['youAreNotRegistered']; ?></p>
+<input type="submit" class="submit" value="<?php echo $GLOBALS['TL_LANG']['MSC']['eventRegister']; ?>" />
 <?php endif; ?>
 </div>
 </form>
