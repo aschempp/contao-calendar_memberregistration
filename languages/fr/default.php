@@ -34,10 +34,10 @@
 $GLOBALS['TL_LANG']['MSC']['memberRegistrationDuplicate']	= 'Ce membre est déjà inscript.';
 $GLOBALS['TL_LANG']['MSC']['eventRegister']					= 'S\'inscrire';
 $GLOBALS['TL_LANG']['MSC']['eventUnregister']				= 'Se désinscrire';
-$GLOBALS['TL_LANG']['MSC']['youAreRegistered']				= 'Vous êtes inscrit à cet évennement.';
-$GLOBALS['TL_LANG']['MSC']['youAreNotRegistered']			= 'Vous n\'êtes pas inscrit à cet évennement.';
-$GLOBALS['TL_LANG']['MSC']['registrationClosed']			= 'Les inscriptions à cet évennement sont terminées.';
-$GLOBALS['TL_LANG']['MSC']['noMembersRegistered']			= 'Aucun membre n\'est inscript à cet évennement.';
-$GLOBALS['TL_LANG']['MSC']['notSubscribed']					= 'Vous n\'êtes pas encore inscript à un évennement.';
+$GLOBALS['TL_LANG']['MSC']['youAreRegistered']				= 'Vous êtes inscrit à cet événement.';
+$GLOBALS['TL_LANG']['MSC']['youAreNotRegistered']			= 'Vous n\'êtes pas inscrit à cet événement.';
+$GLOBALS['TL_LANG']['MSC']['registrationClosed']			= 'Les inscriptions à cet événement sont terminées.';
+$GLOBALS['TL_LANG']['MSC']['noMembersRegistered']			= 'Aucun membre n\'est inscript à cet événement.';
+$GLOBALS['TL_LANG']['MSC']['notSubscribed']					= 'Vous n\'êtes pas encore inscript à un événement.';
 $GLOBALS['TL_LANG']['MSC']['unregisterSelected']			= 'Se désinscrire des évennements sélectionnés.';
 
