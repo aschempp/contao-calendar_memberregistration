@@ -71,6 +71,7 @@ class ModuleCalendarRegistrations extends Events
 	{
 		$this->import('String');
 		$this->arrEvents = array();
+		$arrCalendars = array();
 		
 		$arrUnregister = array();
 		$blnReload = false;
@@ -91,6 +92,7 @@ class ModuleCalendarRegistrations extends Events
 			}
 			else
 			{
+				$arrCalendars[] = $objEvents->pid;
 				$this->addEvent($objEvents, $objEvents->startTime, $objEvents->endTime, ''/*$strUrl*/, $objEvents->startDate/*$intStart*/, $objEvents->endDate/*$intEnd*/, $objEvents->pid);
 			}
 		}
@@ -98,6 +100,16 @@ class ModuleCalendarRegistrations extends Events
 		if ($blnReload)
 		{
 			$this->reload();
+		}
+		
+		// HOOK: modify result set
+		if (isset($GLOBALS['TL_HOOKS']['getAllEvents']) && is_array($GLOBALS['TL_HOOKS']['getAllEvents']))
+		{
+			foreach ($GLOBALS['TL_HOOKS']['getAllEvents'] as $callback)
+			{
+				$this->import($callback[0]);
+				$this->arrEvents = $this->$callback[0]->$callback[1]($this->arrEvents, array_unique($arrCalendars), 0, 0, $this);
+			}
 		}
 		
 		$this->Template->events = $this->arrEvents;
