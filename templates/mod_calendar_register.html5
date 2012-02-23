@@ -6,14 +6,15 @@
 <?php if ($this->register): ?>
 <form action="<?php echo $this->action; ?>" method="post">
 <div class="formbody">
-<input type="hidden" name="FORM_SUBMIT" value="<?php echo $this->formSubmit; ?>" />
+<input type="hidden" name="FORM_SUBMIT" value="<?php echo $this->formSubmit; ?>">
+<input type="hidden" name="REQUEST_TOKEN" value="{{request_token}}">
 <?php if ($this->registered): ?>
 <p class="message registered"><?php echo $GLOBALS['TL_LANG']['MSC']['youAreRegistered']; ?></p>
 <?php echo $this->registered_message; ?>
-<input type="submit" class="submit" value="<?php echo $GLOBALS['TL_LANG']['MSC']['eventUnregister']; ?>" />
+<input type="submit" class="submit" value="<?php echo $GLOBALS['TL_LANG']['MSC']['eventUnregister']; ?>">
 <?php else: ?>
 <p class="message unregistered"><?php echo $GLOBALS['TL_LANG']['MSC']['youAreNotRegistered']; ?></p>
-<input type="submit" class="submit" value="<?php echo $GLOBALS['TL_LANG']['MSC']['eventRegister']; ?>" />
+<input type="submit" class="submit" value="<?php echo $GLOBALS['TL_LANG']['MSC']['eventRegister']; ?>">
 <?php endif; ?>
 </div>
 </form>
@@ -22,7 +23,7 @@
 <?php endif; ?>
 
 <?php if($this->listParticipants): ?>
-<br /><br />
+<br><br>
 
 <?php if ($this->headline): ?>
 

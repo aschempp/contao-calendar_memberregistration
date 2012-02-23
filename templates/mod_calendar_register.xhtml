@@ -7,6 +7,7 @@
 <form action="<?php echo $this->action; ?>" method="post">
 <div class="formbody">
 <input type="hidden" name="FORM_SUBMIT" value="<?php echo $this->formSubmit; ?>" />
+<input type="hidden" name="REQUEST_TOKEN" value="{{request_token}}" />
 <?php if ($this->registered): ?>
 <p class="message registered"><?php echo $GLOBALS['TL_LANG']['MSC']['youAreRegistered']; ?></p>
 <?php echo $this->registered_message; ?>
