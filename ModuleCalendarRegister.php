@@ -63,9 +63,7 @@ class ModuleCalendarRegister extends Events
 		$this->import('CalendarRegistration');
 		if (!$this->CalendarRegistration->allowRegistrations($this->Input->get('events')))
 		{
-			global $objPage;
-			$objHandler = new $GLOBALS['TL_PTY']['error_404']();
-			$objHandler->generate($objPage->id);
+			return '';
 		}
 		
 		$this->cal_calendar = $this->sortOutProtected(deserialize($this->cal_calendar, true));
