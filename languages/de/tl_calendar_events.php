@@ -31,14 +31,14 @@
 /**
  * Fields
  */
-$GLOBALS['TL_LANG']['tl_calendar_events']['register']			= array('Anlass Anmeldung', 'Mitgliedern erlauben, sich für diesen Anlass anzumelden.');
-$GLOBALS['TL_LANG']['tl_calendar_events']['register_until']		= array('Spätestes Anmeldedatum', 'Geben Sie hier ein, bis wann sich Mitglieder spätestens anmelden können.');
-$GLOBALS['TL_LANG']['tl_calendar_events']['register_limit']		= array('Anmeldelimit', 'Geben Sie eine Zahl grösser 0 ein, um die Anmeldungen zu limitieren.');
-$GLOBALS['TL_LANG']['tl_calendar_events']['registered_message']	= array('Mitteilung für bereits angemeldete Mitglieder', 'Sie können bereits angemeldeten Mitgliedern weitere Informationen mitgeben.');
-$GLOBALS['TL_LANG']['tl_calendar_events']['register_jumpTo']	= array('Zielseite für die Anmeldung', 'Wählen Sie die Seite auf der sich das Anmeldeformular befindet.');
+$GLOBALS['TL_LANG']['tl_calendar_events']['register']            = array('Anlass Anmeldung', 'Mitgliedern erlauben, sich für diesen Anlass anzumelden.');
+$GLOBALS['TL_LANG']['tl_calendar_events']['register_until']        = array('Spätestes Anmeldedatum', 'Geben Sie hier ein, bis wann sich Mitglieder spätestens anmelden können.');
+$GLOBALS['TL_LANG']['tl_calendar_events']['register_limit']        = array('Anmeldelimit', 'Geben Sie eine Zahl grösser 0 ein, um die Anmeldungen zu limitieren.');
+$GLOBALS['TL_LANG']['tl_calendar_events']['registered_message']    = array('Mitteilung für bereits angemeldete Mitglieder', 'Sie können bereits angemeldeten Mitgliedern weitere Informationen mitgeben.');
+$GLOBALS['TL_LANG']['tl_calendar_events']['register_jumpTo']    = array('Zielseite für die Anmeldung', 'Wählen Sie die Seite auf der sich das Anmeldeformular befindet.');
 
 
 /**
  * Legends
  */
-$GLOBALS['TL_LANG']['tl_calendar_events']['register_legend']	= 'Anlass Anmeldung';
+$GLOBALS['TL_LANG']['tl_calendar_events']['register_legend']    = 'Anlass Anmeldung';

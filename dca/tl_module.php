@@ -47,47 +47,47 @@ $GLOBALS['TL_DCA']['tl_module']['subpalettes']['cal_listParticipants'] = 'editab
  */
 $GLOBALS['TL_DCA']['tl_module']['fields']['cal_listParticipants'] = array
 (
-	'label'				=> &$GLOBALS['TL_LANG']['tl_module']['cal_listParticipants'],
-	'exclude'			=> true,
-	'inputType'			=> 'checkbox',
-	'eval'				=> array('submitOnChange'=>true),
+    'label'                => &$GLOBALS['TL_LANG']['tl_module']['cal_listParticipants'],
+    'exclude'            => true,
+    'inputType'            => 'checkbox',
+    'eval'                => array('submitOnChange'=>true),
 );
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['cal_anonymous'] = array
 (
-	'label'				=> &$GLOBALS['TL_LANG']['tl_module']['cal_anonymous'],
-	'exclude'			=> true,
-	'inputType'			=> 'checkbox',
-	'eval'				=> array(),
+    'label'                => &$GLOBALS['TL_LANG']['tl_module']['cal_anonymous'],
+    'exclude'            => true,
+    'inputType'            => 'checkbox',
+    'eval'                => array(),
 );
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['cal_pastEvents'] = array
 (
-	'label'				=> &$GLOBALS['TL_LANG']['tl_module']['cal_pastEvents'],
-	'exclude'			=> true,
-	'inputType'			=> 'checkbox',
-	'eval'				=> array(),
+    'label'                => &$GLOBALS['TL_LANG']['tl_module']['cal_pastEvents'],
+    'exclude'            => true,
+    'inputType'            => 'checkbox',
+    'eval'                => array(),
 );
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['mail_createAccount'] = array
 (
-	'label'				=> &$GLOBALS['TL_LANG']['tl_module']['mail_createAccount'],
-	'inputType'			=> 'select',
-	'options_callback'	=> array('tl_module_mail_templates', 'getMailTemplates'),
-	'eval'				=> array('includeBlankOption'=>true),
+    'label'                => &$GLOBALS['TL_LANG']['tl_module']['mail_createAccount'],
+    'inputType'            => 'select',
+    'options_callback'    => array('tl_module_mail_templates', 'getMailTemplates'),
+    'eval'                => array('includeBlankOption'=>true),
 );
 $GLOBALS['TL_DCA']['tl_module']['fields']['mail_eventRegistered'] = array
 (
-	'label'				=> &$GLOBALS['TL_LANG']['tl_module']['mail_eventRegistered'],
-	'inputType'			=> 'select',
-	'options_callback'	=> array('tl_module_mail_templates', 'getMailTemplates'),
-	'eval'				=> array('includeBlankOption'=>true),
+    'label'                => &$GLOBALS['TL_LANG']['tl_module']['mail_eventRegistered'],
+    'inputType'            => 'select',
+    'options_callback'    => array('tl_module_mail_templates', 'getMailTemplates'),
+    'eval'                => array('includeBlankOption'=>true),
 );
 $GLOBALS['TL_DCA']['tl_module']['fields']['mail_eventDeregistered'] = array
 (
-	'label'				=> &$GLOBALS['TL_LANG']['tl_module']['mail_eventDeregistered'],
-	'inputType'			=> 'select',
-	'options_callback'	=> array('tl_module_mail_templates', 'getMailTemplates'),
-	'eval'				=> array('includeBlankOption'=>true),
+    'label'                => &$GLOBALS['TL_LANG']['tl_module']['mail_eventDeregistered'],
+    'inputType'            => 'select',
+    'options_callback'    => array('tl_module_mail_templates', 'getMailTemplates'),
+    'eval'                => array('includeBlankOption'=>true),
 );
 

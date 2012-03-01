@@ -31,22 +31,22 @@
 /**
  * Fields
  */
-$GLOBALS['TL_LANG']['tl_calendar_memberregistration']['member']		= array('Member', 'Please select the member to subscribe for this event.');
-$GLOBALS['TL_LANG']['tl_calendar_memberregistration']['registered']	= array('Registered', 'Date and time when this member has signed up.');
-$GLOBALS['TL_LANG']['tl_calendar_memberregistration']['disable']	= array('Unsubscribed', 'This member has cancelled her registration.');
+$GLOBALS['TL_LANG']['tl_calendar_memberregistration']['member']        = array('Member', 'Please select the member to subscribe for this event.');
+$GLOBALS['TL_LANG']['tl_calendar_memberregistration']['registered']    = array('Registered', 'Date and time when this member has signed up.');
+$GLOBALS['TL_LANG']['tl_calendar_memberregistration']['disable']    = array('Unsubscribed', 'This member has cancelled her registration.');
 
 
 /**
  * Buttons
  */
-$GLOBALS['TL_LANG']['tl_calendar_memberregistration']['csv']	= array('CSV Export', 'Export registrations as CSV file');
-$GLOBALS['TL_LANG']['tl_calendar_memberregistration']['new']	= array('Add participant', 'Add a new participant for this event.');
-$GLOBALS['TL_LANG']['tl_calendar_memberregistration']['delete']	= array('Delete participant', 'Remove participant ID %s');
+$GLOBALS['TL_LANG']['tl_calendar_memberregistration']['csv']    = array('CSV Export', 'Export registrations as CSV file');
+$GLOBALS['TL_LANG']['tl_calendar_memberregistration']['new']    = array('Add participant', 'Add a new participant for this event.');
+$GLOBALS['TL_LANG']['tl_calendar_memberregistration']['delete']    = array('Delete participant', 'Remove participant ID %s');
 
 
 /**
  * Legends
  */
-$GLOBALS['TL_LANG']['tl_calendar_memberregistration']['member_legend']	= 'Member';
-$GLOBALS['TL_LANG']['tl_calendar_memberregistration']['status_legend']	= 'Registration status';
+$GLOBALS['TL_LANG']['tl_calendar_memberregistration']['member_legend']    = 'Member';
+$GLOBALS['TL_LANG']['tl_calendar_memberregistration']['status_legend']    = 'Registration status';
 

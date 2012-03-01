@@ -31,129 +31,129 @@
 class ModuleCalendarRegister extends Events
 {
 
-	/**
-	 * Template
-	 * @var string
-	 */
-	protected $strTemplate = 'mod_calendar_register';
-	
-	
-	public function generate()
-	{
-		if (TL_MODE == 'BE')
-		{
-			$objTemplate = new BackendTemplate('be_wildcard');
+    /**
+     * Template
+     * @var string
+     */
+    protected $strTemplate = 'mod_calendar_register';
+    
+    
+    public function generate()
+    {
+        if (TL_MODE == 'BE')
+        {
+            $objTemplate = new BackendTemplate('be_wildcard');
 
-			$objTemplate->wildcard = '### EVENT MEMBER REGISTRATION ###';
-			$objTemplate->title = $this->headline;
-			$objTemplate->id = $this->id;
-			$objTemplate->link = $this->name;
-			$objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
+            $objTemplate->wildcard = '### EVENT MEMBER REGISTRATION ###';
+            $objTemplate->title = $this->headline;
+            $objTemplate->id = $this->id;
+            $objTemplate->link = $this->name;
+            $objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
 
-			return $objTemplate->parse();
-		}
-		
-		// Only works if an event is given
-		if ($this->Input->get('events') == '')
-		{
-			return '';
-		}
-		
-		// Make sure the current event has registration enabled, otherwise show 404 page
-		$this->import('CalendarRegistration');
-		if (!$this->CalendarRegistration->allowRegistrations($this->Input->get('events')))
-		{
-			return '';
-		}
-		
-		$this->cal_calendar = $this->sortOutProtected(deserialize($this->cal_calendar, true));
+            return $objTemplate->parse();
+        }
+        
+        // Only works if an event is given
+        if ($this->Input->get('events') == '')
+        {
+            return '';
+        }
+        
+        // Make sure the current event has registration enabled, otherwise show 404 page
+        $this->import('CalendarRegistration');
+        if (!$this->CalendarRegistration->allowRegistrations($this->Input->get('events')))
+        {
+            return '';
+        }
+        
+        $this->cal_calendar = $this->sortOutProtected(deserialize($this->cal_calendar, true));
 
-		// Register hook for anonymous registration
-		if (!FE_USER_LOGGED_IN && $this->cal_anonymous)
-		{	
-			$GLOBALS['EVENT_REGISTRATION'] = $this->arrData;
-			array_insert($GLOBALS['TL_HOOKS']['createNewUser'], 0, array(array('CalendarRegistration', 'createNewUser')));
-			$GLOBALS['TL_HOOKS']['postLogin']['calendar_memberregistration'] = array('CalendarRegistration', 'postLogin');
-		}
+        // Register hook for anonymous registration
+        if (!FE_USER_LOGGED_IN && $this->cal_anonymous)
+        {    
+            $GLOBALS['EVENT_REGISTRATION'] = $this->arrData;
+            array_insert($GLOBALS['TL_HOOKS']['createNewUser'], 0, array(array('CalendarRegistration', 'createNewUser')));
+            $GLOBALS['TL_HOOKS']['postLogin']['calendar_memberregistration'] = array('CalendarRegistration', 'postLogin');
+        }
 
-		// Return if there are no calendars or no user logged in
-		if (!FE_USER_LOGGED_IN || !is_array($this->cal_calendar) || count($this->cal_calendar) < 1)
-		{
-			return '';
-		}
-			
-		$this->import('FrontendUser', 'User');
-		
-		return parent::generate();
-	}
-	
-	
-	protected function compile()
-	{
-		$time = time();
-		
-		$objEvent = $this->Database->prepare("SELECT * FROM tl_calendar_events WHERE pid IN(" . implode(',', $this->cal_calendar) . ") AND (id=? OR alias=?)" . (!BE_USER_LOGGED_IN ? " AND (start='' OR start<?) AND (stop='' OR stop>?) AND published=1" : ""))
-								   ->limit(1)
-								   ->execute((is_numeric($this->Input->get('events')) ? $this->Input->get('events') : 0), $this->Input->get('events'), $time, $time);
-		
-		if (!$objEvent->numRows || !$objEvent->register)
-		{
-			$this->Template = new FrontendTemplate('mod_message');
-			return;
-		}
-		
-		if ($this->Input->post('FORM_SUBMIT') == 'tl_memberregistration_'.$this->id)
-		{
-			$this->CalendarRegistration->registerMember($this->User->id, $this->Input->get('events'), $this->arrData, true);
-			$this->reload();
-		}
-		
-		$c = 0;
-		$blnRegistered = false;
-		$arrParticipants = array();
-		$objParticipants = $this->Database->prepare("SELECT m.*, r.tstamp FROM tl_calendar_memberregistration r LEFT JOIN tl_member m ON r.member=m.id WHERE r.pid=? AND r.disable='' ORDER BY m.lastname")->execute($objEvent->id);
-		
-		while( $objParticipants->next() )
-		{
-			if ($objParticipants->id == $this->User->id)
-			{
-				$blnRegistered = true;
-			}
-			
-			$arrParticipants[] = array_merge($objParticipants->row(), array
-			(
-				'rowclass'		=> (($c%2 ? 'even' : 'odd') . ($c==0 ? ' row_first' : '')),
-				'registerDate'	=> $this->parseDate($GLOBALS['TL_CONFIG']['dateFormat'], $objParticipant->tstamp),
-				'registerTime'	=> $this->parseDate($GLOBALS['TL_CONFIG']['timeFormat'], $objParticipant->tstamp),
-			));
-			
-			$c++;
-		}
-		
-		if (count($arrParticipants))
-		{
-			$arrParticipants[count($arrParticipants)-1]['rowclass'] .= ' row_last';
-		}
-		
-		$blnListParticipants = $this->cal_listParticipants ? true : false;
-		$blnRegister = true;
-		
-		if (!$blnRegistered && $objEvent->register_limit > 0 && $objEvent->register_limit <= count($arrParticipants))
-		{
-			$blnRegister = false;
-		}
-		elseif (strtotime('+1 day', ($objEvent->register_until ? $objEvent->register_until : $objEvent->startDate)) < $time)
-		{
-			$blnRegister = false;
-		}
-		
-		if ($blnListParticipants)
-		{
-			$this->loadLanguageFile('tl_member');
-			$this->Template->editable = deserialize($this->editable, true);
-			
-			$GLOBALS['TL_CSS'][] = 'plugins/tablesort/css/tablesort.css';
-			$GLOBALS['TL_MOOTOOLS'][] = '
+        // Return if there are no calendars or no user logged in
+        if (!FE_USER_LOGGED_IN || !is_array($this->cal_calendar) || count($this->cal_calendar) < 1)
+        {
+            return '';
+        }
+            
+        $this->import('FrontendUser', 'User');
+        
+        return parent::generate();
+    }
+    
+    
+    protected function compile()
+    {
+        $time = time();
+        
+        $objEvent = $this->Database->prepare("SELECT * FROM tl_calendar_events WHERE pid IN(" . implode(',', $this->cal_calendar) . ") AND (id=? OR alias=?)" . (!BE_USER_LOGGED_IN ? " AND (start='' OR start<?) AND (stop='' OR stop>?) AND published=1" : ""))
+                                   ->limit(1)
+                                   ->execute((is_numeric($this->Input->get('events')) ? $this->Input->get('events') : 0), $this->Input->get('events'), $time, $time);
+        
+        if (!$objEvent->numRows || !$objEvent->register)
+        {
+            $this->Template = new FrontendTemplate('mod_message');
+            return;
+        }
+        
+        if ($this->Input->post('FORM_SUBMIT') == 'tl_memberregistration_'.$this->id)
+        {
+            $this->CalendarRegistration->registerMember($this->User->id, $this->Input->get('events'), $this->arrData, true);
+            $this->reload();
+        }
+        
+        $c = 0;
+        $blnRegistered = false;
+        $arrParticipants = array();
+        $objParticipants = $this->Database->prepare("SELECT m.*, r.tstamp FROM tl_calendar_memberregistration r LEFT JOIN tl_member m ON r.member=m.id WHERE r.pid=? AND r.disable='' ORDER BY m.lastname")->execute($objEvent->id);
+        
+        while( $objParticipants->next() )
+        {
+            if ($objParticipants->id == $this->User->id)
+            {
+                $blnRegistered = true;
+            }
+            
+            $arrParticipants[] = array_merge($objParticipants->row(), array
+            (
+                'rowclass'        => (($c%2 ? 'even' : 'odd') . ($c==0 ? ' row_first' : '')),
+                'registerDate'    => $this->parseDate($GLOBALS['TL_CONFIG']['dateFormat'], $objParticipant->tstamp),
+                'registerTime'    => $this->parseDate($GLOBALS['TL_CONFIG']['timeFormat'], $objParticipant->tstamp),
+            ));
+            
+            $c++;
+        }
+        
+        if (count($arrParticipants))
+        {
+            $arrParticipants[count($arrParticipants)-1]['rowclass'] .= ' row_last';
+        }
+        
+        $blnListParticipants = $this->cal_listParticipants ? true : false;
+        $blnRegister = true;
+        
+        if (!$blnRegistered && $objEvent->register_limit > 0 && $objEvent->register_limit <= count($arrParticipants))
+        {
+            $blnRegister = false;
+        }
+        elseif (strtotime('+1 day', ($objEvent->register_until ? $objEvent->register_until : $objEvent->startDate)) < $time)
+        {
+            $blnRegister = false;
+        }
+        
+        if ($blnListParticipants)
+        {
+            $this->loadLanguageFile('tl_member');
+            $this->Template->editable = deserialize($this->editable, true);
+            
+            $GLOBALS['TL_CSS'][] = 'plugins/tablesort/css/tablesort.css';
+            $GLOBALS['TL_MOOTOOLS'][] = '
 <script type="text/javascript" src="plugins/tablesort/js/tablesort.js"></script>
 <script type="text/javascript">
 <!--//--><![CDATA[//><!--
@@ -162,17 +162,17 @@ window.addEvent(\'domready\', function() {
 });
 //--><!]]>
 </script>';
-		}
-		
-		$this->Template->listParticipants = $blnListParticipants;
-		$this->Template->register = $blnRegister;
-		$this->Template->participants = $arrParticipants;
-		$this->Template->registered = $blnRegistered;
-		$this->Template->registered_message = $objEvent->registered_message;
-		$this->Template->register_limit = $objEvent->register_limit ? sprintf('<p class="limit">Max. %s members allowed.</p>', $objEvent->register_limit) : '';
-		$this->Template->action = ampersand($this->Environment->request);
-		$this->Template->formSubmit = 'tl_memberregistration_'.$this->id;
-		$this->Template->id = $this->id;
-	}
+        }
+        
+        $this->Template->listParticipants = $blnListParticipants;
+        $this->Template->register = $blnRegister;
+        $this->Template->participants = $arrParticipants;
+        $this->Template->registered = $blnRegistered;
+        $this->Template->registered_message = $objEvent->registered_message;
+        $this->Template->register_limit = $objEvent->register_limit ? sprintf('<p class="limit">Max. %s members allowed.</p>', $objEvent->register_limit) : '';
+        $this->Template->action = ampersand($this->Environment->request);
+        $this->Template->formSubmit = 'tl_memberregistration_'.$this->id;
+        $this->Template->id = $this->id;
+    }
 }
 

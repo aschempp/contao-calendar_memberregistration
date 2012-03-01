@@ -39,6 +39,6 @@ $GLOBALS['TL_DCA']['tl_member']['config']['ondelete_callback'][] = array('Calend
  */
 $GLOBALS['TL_DCA']['tl_member']['fields']['available'] = array
 (
-	'label'		=> &$GLOBALS['TL_LANG']['tl_member']['available'],
+    'label'        => &$GLOBALS['TL_LANG']['tl_member']['available'],
 );
 

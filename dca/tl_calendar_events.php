@@ -33,10 +33,10 @@
  */
 $GLOBALS['TL_DCA']['tl_calendar_events']['list']['operations']['members'] = array
 (
-	'label'				=> &$GLOBALS['TL_LANG']['tl_calendar_events']['members'],
-	'href'				=> 'table=tl_calendar_memberregistration',
-	'icon'				=> 'member.gif',
-	'button_callback'	=> array('tl_calendar_events_memberregistration', 'registrationButton'),
+    'label'                => &$GLOBALS['TL_LANG']['tl_calendar_events']['members'],
+    'href'                => 'table=tl_calendar_memberregistration',
+    'icon'                => 'member.gif',
+    'button_callback'    => array('tl_calendar_events_memberregistration', 'registrationButton'),
 );
 
 
@@ -47,67 +47,67 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['__selector__'][] = 'regist
 $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['default'] .= ';{register_legend},register';
 $GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['register'] = 'register_until,register_limit,registered_message,register_jumpTo';
 
-			
+            
 /**
  * Fields
  */
 $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['register'] = array
 (
-	'label'					=> &$GLOBALS['TL_LANG']['tl_calendar_events']['register'],
-	'exclude'				=> true,
-	'inputType'				=> 'checkbox',
-	'filter'				=> true,
-	'eval'					=> array('submitOnChange'=>true),
+    'label'                    => &$GLOBALS['TL_LANG']['tl_calendar_events']['register'],
+    'exclude'                => true,
+    'inputType'                => 'checkbox',
+    'filter'                => true,
+    'eval'                    => array('submitOnChange'=>true),
 );
 
 $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['register_until'] = array
 (
-	'label'					=> &$GLOBALS['TL_LANG']['tl_calendar_events']['register_until'],
-	'exclude'				=> true,
-	'inputType'				=> 'text',
-	'eval'					=> array('maxlength'=>10, 'rgxp'=>'date', 'tl_class'=>'w50 wizard', 'datepicker'=>$this->getDatePickerString(16)),
+    'label'                    => &$GLOBALS['TL_LANG']['tl_calendar_events']['register_until'],
+    'exclude'                => true,
+    'inputType'                => 'text',
+    'eval'                    => array('maxlength'=>10, 'rgxp'=>'date', 'tl_class'=>'w50 wizard', 'datepicker'=>$this->getDatePickerString(16)),
 );
 
 $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['register_limit'] = array
 (
-	'label'					=> &$GLOBALS['TL_LANG']['tl_calendar_events']['register_limit'],
-	'exclude'				=> true,
-	'inputType'				=> 'text',
-	'eval'					=> array('mandatory'=>true, 'maxlength'=>10, 'tl_class'=>'w50', 'rgxp'=>'digit'),
+    'label'                    => &$GLOBALS['TL_LANG']['tl_calendar_events']['register_limit'],
+    'exclude'                => true,
+    'inputType'                => 'text',
+    'eval'                    => array('mandatory'=>true, 'maxlength'=>10, 'tl_class'=>'w50', 'rgxp'=>'digit'),
 );
-		
+        
 $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['registered_message'] = array
 (
-	'label'					=> &$GLOBALS['TL_LANG']['tl_calendar_events']['registered_message'],
-	'exclude'				=> true,
-	'inputType'				=> 'textarea',
-	'eval'					=> array('rte'=>'tinyMCE', 'tl_class'=>'clr'),
+    'label'                    => &$GLOBALS['TL_LANG']['tl_calendar_events']['registered_message'],
+    'exclude'                => true,
+    'inputType'                => 'textarea',
+    'eval'                    => array('rte'=>'tinyMCE', 'tl_class'=>'clr'),
 );
 
 $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['register_jumpTo'] = array
 (
-	'label'			=> &$GLOBALS['TL_LANG']['tl_calendar_events']['register_jumpTo'],
-	'exclude'		=> true,
-	'inputType'		=> 'pageTree',
-	'eval'			=> array('fieldType'=>'radio'),
+    'label'            => &$GLOBALS['TL_LANG']['tl_calendar_events']['register_jumpTo'],
+    'exclude'        => true,
+    'inputType'        => 'pageTree',
+    'eval'            => array('fieldType'=>'radio'),
 );
 
 
 class tl_calendar_events_memberregistration extends Backend
 {
-	
-	public function registrationButton($row, $href, $label, $title, $icon, $attributes)
-	{
-		if (!$row['register'])
-			return '';
-		
-		if ($this->Database->execute("SELECT COUNT(*) AS total FROM tl_calendar_memberregistration WHERE pid=".$row['id'])->total == 0)
-		{
-			$icon = str_replace('.gif', '_.gif', $icon);
-		}
-			
-		return '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.specialchars($title).'"'.$attributes.'>'.$this->generateImage($icon, $label).'</a> ';
-	}
+    
+    public function registrationButton($row, $href, $label, $title, $icon, $attributes)
+    {
+        if (!$row['register'])
+            return '';
+        
+        if ($this->Database->execute("SELECT COUNT(*) AS total FROM tl_calendar_memberregistration WHERE pid=".$row['id'])->total == 0)
+        {
+            $icon = str_replace('.gif', '_.gif', $icon);
+        }
+            
+        return '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.specialchars($title).'"'.$attributes.'>'.$this->generateImage($icon, $label).'</a> ';
+    }
 
 }
 

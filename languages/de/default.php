@@ -31,13 +31,13 @@
 /**
  * Miscellaneous
  */
-$GLOBALS['TL_LANG']['MSC']['memberRegistrationDuplicate']	= 'Dieses Mitglied ist bereits angemeldet.';
-$GLOBALS['TL_LANG']['MSC']['eventRegister']					= 'Anmelden';
-$GLOBALS['TL_LANG']['MSC']['eventUnregister']				= 'Abmelden';
-$GLOBALS['TL_LANG']['MSC']['youAreRegistered']				= 'Sie sind für diesen Anlass angemeldet.';
-$GLOBALS['TL_LANG']['MSC']['youAreNotRegistered']			= 'Sie sind für diesen Anlass nicht angemeldet.';
-$GLOBALS['TL_LANG']['MSC']['registrationClosed']			= 'Die Anmeldung für diesen Anlass ist geschlossen.';
-$GLOBALS['TL_LANG']['MSC']['noMembersRegistered']			= 'Für diesen Anlass sind keine Mitglieder angemeldet.';
-$GLOBALS['TL_LANG']['MSC']['notSubscribed']					= 'Sie sind zurzeit für keinen Anlass angemeldet.';
-$GLOBALS['TL_LANG']['MSC']['unregisterSelected']			= 'Von den gewählten Anlässen abmelden';
+$GLOBALS['TL_LANG']['MSC']['memberRegistrationDuplicate']    = 'Dieses Mitglied ist bereits angemeldet.';
+$GLOBALS['TL_LANG']['MSC']['eventRegister']                    = 'Anmelden';
+$GLOBALS['TL_LANG']['MSC']['eventUnregister']                = 'Abmelden';
+$GLOBALS['TL_LANG']['MSC']['youAreRegistered']                = 'Sie sind für diesen Anlass angemeldet.';
+$GLOBALS['TL_LANG']['MSC']['youAreNotRegistered']            = 'Sie sind für diesen Anlass nicht angemeldet.';
+$GLOBALS['TL_LANG']['MSC']['registrationClosed']            = 'Die Anmeldung für diesen Anlass ist geschlossen.';
+$GLOBALS['TL_LANG']['MSC']['noMembersRegistered']            = 'Für diesen Anlass sind keine Mitglieder angemeldet.';
+$GLOBALS['TL_LANG']['MSC']['notSubscribed']                    = 'Sie sind zurzeit für keinen Anlass angemeldet.';
+$GLOBALS['TL_LANG']['MSC']['unregisterSelected']            = 'Von den gewählten Anlässen abmelden';
 
