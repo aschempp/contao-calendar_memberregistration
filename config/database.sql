@@ -49,6 +49,7 @@ CREATE TABLE `tl_module` (
   `cal_anonymous` char(1) NOT NULL default '',
   `cal_listParticipants` char(1) NOT NULL default '',
   `cal_pastEvents` char(1) NOT NULL default '',
-  `mail_createAccount` char(1) NOT NULL default '',
+  `mail_createAccount` int(10) unsigned NOT NULL default '0',
+  `mail_eventRegistered` int(10) unsigned NOT NULL default '0',
+  `mail_eventDeregistered` int(10) unsigned NOT NULL default '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-

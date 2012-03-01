@@ -163,15 +163,45 @@ class CalendarRegistration extends Frontend
 					}
 				}
 			}
-			
+            
+            // Build simple tokens to use in email templates (member data starts with "member_", event data with "event_")
+            $arrSimpleTokens = array();
+            $arrMember = $this->Database->execute('SELECT * FROM tl_member WHERE id='.(int)$intMember)->row();
+            if (is_array($arrMember) && count($arrMember))
+            {
+                $this->loadDataContainer('tl_member');
+                foreach ($arrMember as $k => $v)
+                {
+                    $arrPrepared = $this->prepareForWidget($GLOBALS['TL_DCA']['tl_member']['fields'][$k], $k, $v);
+                    $arrSimpleTokens['member_' . $k] = $arrPrepared['value'];
+                }
+            }
+            
+            $arrEvent = $objEvent->row();
+            $this->loadDataContainer('tl_calendar_events');
+            foreach ($arrEvent as $k => $v)
+            {
+                $arrPrepared = $this->prepareForWidget($GLOBALS['TL_DCA']['tl_calendar_events']['fields'][$k], $k, $v);
+                $arrSimpleTokens['event_' . $k] = $arrPrepared['value'];
+            }    
+            
 			if ($blnActivate)
 			{
 				$this->Database->query("UPDATE tl_calendar_memberregistration SET tstamp=$time, registered=$time, disable='" . ($objRegistered->disable == '1' ? '' : '1') . "' WHERE pid=".(int)$objEvent->id." AND member=".(int)$intMember."");
+			    
+			    // register or unregister a member and send confirmation emails
+			    $intMailTempalte = ($objRegistered->disable == '') ? $arrModule['mail_eventDeregistered'] : $arrModule['mail_eventRegistered'];
+			    $objEmail = new EmailTemplate($intMailTempalte);
+                $objEmail->simpleTokens = $arrSimpleTokens;
+                $objEmail->sendTo($arrMember['email']);
 			}
 			else
 			{
 				$this->Database->query("INSERT INTO tl_calendar_memberregistration (tstamp,registered,pid,member) VALUES ($time,$time,".(int)$objEvent->id.",".(int)$intMember.")");
-			}
+                $objEmail = new EmailTemplate($arrModule['mail_eventRegistered']);
+                $objEmail->simpleTokens = $arrSimpleTokens;
+                $objEmail->sendTo($arrMember['email']);			
+            }
 			
 			return true;
 		}

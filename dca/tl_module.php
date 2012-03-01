@@ -32,7 +32,7 @@
  * Palettes
  */
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'cal_listParticipants';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['calendar_register'] = '{title_legend},name,headline,type;{config_legend},cal_calendar,cal_anonymous,cal_listParticipants;{email_legend},mail_template,mail_createAccount;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['calendar_register'] = '{title_legend},name,headline,type;{config_legend},cal_calendar,cal_anonymous,cal_listParticipants;{email_legend},mail_eventRegistered,mail_eventDeregistered,mail_createAccount;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['calendar_registrations'] = '{title_legend},name,headline,type;{config_legend},cal_calendar,cal_pastEvents;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
 
 
@@ -72,6 +72,20 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['cal_pastEvents'] = array
 $GLOBALS['TL_DCA']['tl_module']['fields']['mail_createAccount'] = array
 (
 	'label'				=> &$GLOBALS['TL_LANG']['tl_module']['mail_createAccount'],
+	'inputType'			=> 'select',
+	'options_callback'	=> array('tl_module_mail_templates', 'getMailTemplates'),
+	'eval'				=> array('includeBlankOption'=>true),
+);
+$GLOBALS['TL_DCA']['tl_module']['fields']['mail_eventRegistered'] = array
+(
+	'label'				=> &$GLOBALS['TL_LANG']['tl_module']['mail_eventRegistered'],
+	'inputType'			=> 'select',
+	'options_callback'	=> array('tl_module_mail_templates', 'getMailTemplates'),
+	'eval'				=> array('includeBlankOption'=>true),
+);
+$GLOBALS['TL_DCA']['tl_module']['fields']['mail_eventDeregistered'] = array
+(
+	'label'				=> &$GLOBALS['TL_LANG']['tl_module']['mail_eventDeregistered'],
 	'inputType'			=> 'select',
 	'options_callback'	=> array('tl_module_mail_templates', 'getMailTemplates'),
 	'eval'				=> array('includeBlankOption'=>true),

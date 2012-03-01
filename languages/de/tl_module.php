@@ -35,3 +35,5 @@ $GLOBALS['TL_LANG']['tl_module']['cal_anonymous'] = array('Gästeanmeldung erlau
 $GLOBALS['TL_LANG']['tl_module']['cal_listParticipants'] = array('Teilnehmer auflisten', 'Eine Liste aller Teilnehmer für diesen Anlass auflisten.');
 $GLOBALS['TL_LANG']['tl_module']['cal_pastEvents'] = array('Vergangene Anlässe anzeigen', 'Auch Anmeldungen für vergangene Anlässe auflisten.');
 $GLOBALS['TL_LANG']['tl_module']['mail_createAccount'] = array('Benachrichtigung für ein neues Konto', 'Bitte wählen Sie ein Mail Template für die Benachrichtigung für ein neues Benutzerkonto.');
+$GLOBALS['TL_LANG']['tl_module']['mail_eventRegistered'] = array('Benachrichtigung Anmeldung', 'Bitte wählen Sie ein Mail Template für die Benachrichtigung über die Anmeldung an einem Anlass.');
+$GLOBALS['TL_LANG']['tl_module']['mail_eventDeregistered'] = array('Benachrichtigung Abmeldung', 'Bitte wählen Sie ein Mail Template für die Benachrichtigung über die Abmeldung von einem Anlass.');
