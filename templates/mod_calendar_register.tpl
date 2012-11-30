@@ -1,4 +1,3 @@
-
 <!-- indexer::stop -->
 <div class="<?php echo $this->class; ?> block"<?php echo $this->cssID; ?><?php if ($this->style): ?> style="<?php echo $this->style; ?>"<?php endif; ?>>
 
@@ -30,7 +29,7 @@
 <?php endif; ?>
 
 <?php if (count($this->participants)): ?>
-<table id="memberregistration_<?php echo $this->id; ?>" cellspacing="0" cellpadding="0" border="0" class="sortable all_records" summary="Event registrations">
+<table id="memberregistration_<?php echo $this->id; ?>" class="sortable all_records">
   <thead>
   	<tr>
 <?php foreach( $this->editable as $field ): ?>
